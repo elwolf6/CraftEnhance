@@ -45,6 +45,8 @@ public class RecipeLoader implements Listener {
     @Getter
     private List<Recipe> disabledServerRecipes = new ArrayList<>();
 
+    @Getter
+    private List<String> disabledNames = new ArrayList<>();
 
     private Map<String, Recipe> loaded = new HashMap<>();
     private Server server;
@@ -272,6 +274,14 @@ public class RecipeLoader implements Listener {
             return true;
         }
         return false;
+    }
+
+    public void makeDisabledRecipeNames() {
+        for (int i = 0; i < getDisabledServerRecipes().size(); i++) {
+            String recipeName = getDisabledServerRecipes().get(i).getResult().getData().getItemType().name();
+            Debug.Send("Adding " + recipeName + " to the mvndi disable list");
+            disabledNames.add(recipeName);
+        }
     }
 
     public boolean enableServerRecipe(Recipe r){

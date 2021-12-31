@@ -86,19 +86,22 @@ public class RecipeInjector implements Listener{
 
 	    CraftingInventory inv = e.getInventory();
 	    Recipe serverRecipe = e.getRecipe();
-
         Debug.Send("The server wants to inject " + serverRecipe.getResult().toString() + " ceh will check or modify this.");
 
         List<RecipeGroup> possibleRecipeGroups = loader.findGroupsByResult(serverRecipe.getResult(), RecipeType.WORKBENCH);
+        String recipeName = e.getRecipe().getResult().getData().getItemType().name();
 
         if(possibleRecipeGroups == null || possibleRecipeGroups.size() == 0) {
             if(disableDefaultModeldataCrafts && Adapter.canUseModeldata() && containsModeldata(inv)) {
                 inv.setResult(null);
             }
-            Debug.Send("no matching groups");
+            Debug.Send("no matching groups " + loader.getDisabledNames().size());
+            if(loader.getDisabledNames().contains(recipeName)) {
+                Bukkit.getConsoleSender().sendMessage("Preventing crafting of " + recipeName);
+                inv.setResult(null);
+            }
             return;
         }
-
         for(RecipeGroup group : possibleRecipeGroups){
 
             //Check if any grouped enhanced recipe is a match.
