@@ -95,7 +95,7 @@ public class RecipeInjector implements Listener{
             if(disableDefaultModeldataCrafts && Adapter.canUseModeldata() && containsModeldata(inv)) {
                 inv.setResult(null);
             }
-            Debug.Send("no matching groups " + loader.getDisabledNames().size());
+            Debug.Send("no matching groups ");
             if(loader.getDisabledNames().contains(recipeName)) {
                 Bukkit.getConsoleSender().sendMessage("Preventing crafting of " + recipeName);
                 inv.setResult(null);
